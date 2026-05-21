@@ -64,7 +64,7 @@ O aplicativo também terá:
 
 * Raquel
 * Gabriel
-* Cristhyan
+* Crystyan
 * Luana
 * Clarissa
 * Nathan
