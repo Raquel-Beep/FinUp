@@ -1,162 +1,239 @@
+// Importa o React e alguns Hooks importantes
 import React, { useEffect, useRef, useState } from "react";
 
+// Importa componentes do React Native
 import {
-  View,
-  Text,
-  StyleSheet,
-  StatusBar,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-  ActivityIndicator,
+  View, // Estrutura visual tipo div
+  Text, // Texto
+  StyleSheet, // CSS do React Native
+  StatusBar, // Barra superior do celular
+  TextInput, // Campo de digitação
+  TouchableOpacity, // Botão clicável
+  ScrollView, // Área rolável
+  KeyboardAvoidingView, // Faz a tela subir quando o teclado abre
+  Platform, // Detecta Android/iOS
+  ActivityIndicator, // Loading animado
 } from "react-native";
 
+// Importa o componente de vídeo do Expo
 import { Video } from "expo-av";
 
+// Tela de loading personalizada
 import LoadingScreen from "./LoadingScreen";
 
-import { askLuna } from "../services/gemini";
+// Função da IA Luna
+import { askLuna } from "../services/groq";
 
+// Componente principal da tela
 export default function LunaScreen() {
 
+  // Estado do loading inicial
   const [loading, setLoading] = useState(true);
 
+  // Texto digitado no input
   const [message, setMessage] = useState("");
 
+  // Verifica se a IA está digitando
   const [isTyping, setIsTyping] = useState(false);
 
+  // Referência do ScrollView
+  // usada para descer automaticamente o chat
   const scrollViewRef = useRef(null);
 
+  // Função para pegar o horário atual
+  // e retornar Bom dia / Boa tarde / Boa noite
   const getGreeting = () => {
 
+    // Pega a hora atual do aparelho
     const hour = new Date().getHours();
 
+    // Antes de 12h
     if (hour < 12) {
       return "Bom dia";
     }
 
+    // Antes das 18h
     if (hour < 18) {
       return "Boa tarde";
     }
 
+    // Depois das 18h
     return "Boa noite";
   };
 
-  const userName = "Crystyan";
+  // Nome do usuário
+  // futuramente pode vir do banco de dados
+  const userName = "Usuário";
 
+  // Estado que armazena todas mensagens do chat
   const [messages, setMessages] = useState([
+
+    // Primeira mensagem da Luna
     {
       id: 1,
       sender: "luna",
+
       text:
         `${getGreeting()}, ${userName} 💜\n\n` +
+
         `Eu sou a Luna, sua assistente financeira.\n` +
+
         `Estou pronta para ajudar você a controlar seus gastos, metas e investimentos.`,
     },
+
   ]);
 
+  // Executa quando a tela abre
   useEffect(() => {
 
+    // Cria um timer de 1 segundo
     const timer = setTimeout(() => {
+
+      // Remove loading
       setLoading(false);
+
     }, 1000);
 
+    // Limpa memória do timer
     return () => clearTimeout(timer);
 
   }, []);
 
+  // Faz o chat descer automaticamente
   const scrollToBottom = () => {
 
     setTimeout(() => {
 
       scrollViewRef.current?.scrollToEnd({
+
         animated: true,
+
       });
 
     }, 100);
   };
 
-    const sendMessage = async () => {
+  // Função de enviar mensagem
+  const sendMessage = async () => {
 
-      if (isTyping) {
-        return;
-      }
+    // Impede enviar enquanto IA responde
+    if (isTyping) {
+      return;
+    }
 
-      if (message.trim() === "") {
-        return;
-      }
+    // Impede mensagem vazia
+    if (message.trim() === "") {
+      return;
+    }
 
+    // Cria objeto da mensagem do usuário
     const userMessage = {
+
       id: Date.now(),
+
       sender: "user",
+
       text: message,
     };
 
+    // Adiciona mensagem no chat
     setMessages((prev) => [...prev, userMessage]);
 
+    // Guarda mensagem atual
     const currentMessage = message;
 
+    // Limpa input
     setMessage("");
 
-    scrollToBottom();
-
+    // Mostra loading digitando
     setIsTyping(true);
 
     try {
 
-      const response = await askLuna(currentMessage);
+      // Envia mensagem para IA
+      const response =
+        await askLuna(currentMessage);
 
+      // Cria resposta da Luna
       const lunaMessage = {
+
         id: Date.now() + 1,
+
         sender: "luna",
+
         text: response,
       };
 
+      // Adiciona resposta no chat
       setMessages((prev) => [...prev, lunaMessage]);
-
-      scrollToBottom();
 
     } catch (error) {
 
+      // Mostra erro no console
       console.log(error);
 
     } finally {
 
+      // Remove loading digitando
       setIsTyping(false);
     }
   };
 
+  // Enquanto carrega
   if (loading) {
+
+    // Mostra tela de loading
     return <LoadingScreen />;
   }
 
+  // Renderização da tela
   return (
 
+    // Faz layout subir quando teclado abre
     <KeyboardAvoidingView
+
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+
+      // iPhone usa padding
+      // Android usa height
+      behavior={
+        Platform.OS === "ios"
+          ? "padding"
+          : "height"
+      }
+
+      // Distância do teclado
+      keyboardVerticalOffset={10}
     >
 
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="#13061F"
-      />
-
-      {/* LUNA */}
+      {/* ÁREA DA LUNA */}
       <View style={styles.lunaContainer}>
 
-        <View style={styles.glow} />
-
+        {/* Vídeo da Luna */}
         <Video
+
+          // Caminho do vídeo
           source={require("../assets/lunaIA.mp4")}
+
+          // Estilo do vídeo
           style={styles.video}
+
+          // Ajuste do vídeo
           resizeMode="contain"
+
+          // Auto play
           shouldPlay
+
+          // Loop infinito
           isLooping
-          rate={1.5}
+
+          // Velocidade 1.5x
+          rate={2.0}
+
+          // Sem som
           volume={0}
+
+          // Remove controles
           useNativeControls={false}
         />
 
@@ -164,42 +241,79 @@ export default function LunaScreen() {
 
       {/* CHAT */}
       <ScrollView
+
+        // Referência
         ref={scrollViewRef}
+
+        // Estilo
         style={styles.chatContainer}
-        contentContainerStyle={styles.chatContent}
+
+        // Conteúdo interno
+        contentContainerStyle={
+          styles.chatContent
+        }
+
+        // Remove barra lateral
         showsVerticalScrollIndicator={false}
+
+        // Permite clicar no input
+        keyboardShouldPersistTaps="handled"
+
+        // Sempre desce automaticamente
+        onContentSizeChange={scrollToBottom}
       >
 
+        {/* Percorre mensagens */}
         {messages.map((item) => (
 
           <View
+
             key={item.id}
+
             style={[
+
               styles.messageWrapper,
+
+              // Verifica quem enviou
               item.sender === "user"
+
                 ? styles.userWrapper
+
                 : styles.lunaWrapper,
             ]}
           >
 
             <View
+
               style={[
+
                 styles.messageBubble,
+
                 item.sender === "user"
+
                   ? styles.userBubble
+
                   : styles.lunaBubble,
               ]}
             >
 
+              {/* Texto da mensagem */}
               <Text
+
                 style={[
+
                   styles.messageText,
+
                   item.sender === "user"
+
                     ? styles.userText
+
                     : styles.lunaText,
                 ]}
               >
+
                 {item.text}
+
               </Text>
 
             </View>
@@ -208,13 +322,19 @@ export default function LunaScreen() {
 
         ))}
 
+        {/* Loading digitando */}
         {isTyping && (
 
           <View style={styles.lunaWrapper}>
 
             <View style={styles.typingBubble}>
 
-              <ActivityIndicator size="small" color="#C89BFF" />
+              <ActivityIndicator
+
+                size="small"
+
+                color="#C89BFF"
+              />
 
             </View>
 
@@ -229,21 +349,30 @@ export default function LunaScreen() {
 
         <View style={styles.inputContainer}>
 
+          {/* Campo de texto */}
           <TextInput
+
             placeholder="Converse com a Luna..."
-            placeholderTextColor="#9A7CC9"
+
+            placeholderTextColor="#fdfdfd"
+
             style={styles.input}
+
             value={message}
+
             onChangeText={setMessage}
           />
 
+          {/* Botão enviar */}
           <TouchableOpacity
+
             style={styles.sendButton}
+
             onPress={sendMessage}
           >
 
             <Text style={styles.sendText}>
-              ✈
+              ➜
             </Text>
 
           </TouchableOpacity>
@@ -257,188 +386,219 @@ export default function LunaScreen() {
   );
 }
 
+// CSS da tela
 const styles = StyleSheet.create({
 
+  // Tela inteira
   container: {
     flex: 1,
-    backgroundColor: "#13061F",
+    backgroundColor: "#ffffff",
   },
 
   /* LUNA */
 
+  // Área do vídeo
   lunaContainer: {
+
     width: "100%",
-    height: 260,
+
+    height: 200,
 
     justifyContent: "center",
+
     alignItems: "center",
 
-    marginTop: 40,
   },
 
-  glow: {
-    position: "absolute",
-
-    width: 230,
-    height: 230,
-
-    borderRadius: 200,
-
-    backgroundColor: "rgba(153, 0, 255, 0.25)",
-
-    shadowColor: "#B266FF",
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 40,
-
-    elevation: 20,
-  },
-
+  // Vídeo da Luna
   video: {
-    width: 270,
-    height: 270,
+
+    width: 240,
+
+    height: 240,
+
+    borderRadius: 250,
   },
 
   /* CHAT */
 
+  // Área do chat
   chatContainer: {
+
     flex: 1,
+
+    width: "100%",
+    height: "50%",
   },
 
+  // Conteúdo do chat
   chatContent: {
+
+    flexGrow: 1,
+
+    justifyContent: "flex-end",
+
     paddingHorizontal: 20,
-    paddingBottom: 130,
+
+    paddingTop: 20,
+
+    paddingBottom: 100,
   },
 
+  // Wrapper das mensagens
   messageWrapper: {
-    marginBottom: 18,
+
+    marginBottom: 15,
+
     flexDirection: "row",
   },
 
+  // Mensagem da Luna
   lunaWrapper: {
+
     justifyContent: "flex-start",
   },
 
+  // Mensagem do usuário
   userWrapper: {
+
     justifyContent: "flex-end",
   },
 
+  // Caixa das mensagens
   messageBubble: {
-    maxWidth: "82%",
 
-    paddingHorizontal: 18,
-    paddingVertical: 15,
+    maxWidth: "100%",
 
-    borderRadius: 24,
+    paddingHorizontal: 20,
+
+    paddingVertical: 20,
+
+    borderRadius: 25,
   },
 
+  // Caixa da Luna
   lunaBubble: {
-    backgroundColor: "rgba(148, 69, 255, 0.22)",
 
-    borderWidth: 1,
-    borderColor: "rgba(196, 155, 255, 0.18)",
+    backgroundColor:
+      "rgba(148, 69, 255, 0.20)",
   },
 
+  // Caixa do usuário
   userBubble: {
+
     backgroundColor: "#8F45FF",
   },
 
+  // Texto da mensagem
   messageText: {
-    fontSize: 16,
-    lineHeight: 25,
+
+    fontSize: 15,
+
+    lineHeight: 22,
   },
 
+  // Texto da Luna
   lunaText: {
-    color: "#F3E8FF",
+
+    color: "#000000",
   },
 
+  // Texto do usuário
   userText: {
+
     color: "#FFFFFF",
   },
 
-  /* TYPING */
+  /* DIGITANDO */
 
+  // Bubble digitando
   typingBubble: {
 
     width: 70,
-    height: 50,
 
-    borderRadius: 20,
+    height: 100,
 
-    backgroundColor: "rgba(148, 69, 255, 0.22)",
+    borderRadius: 15,
+
+    backgroundColor:
+      "rgba(255, 255, 255, 0.2)",
 
     justifyContent: "center",
-    alignItems: "center",
 
-    borderWidth: 1,
-    borderColor: "rgba(196, 155, 255, 0.18)",
+    alignItems: "center",
   },
 
   /* INPUT */
 
+  // Área do input
   inputArea: {
-    position: "absolute",
-    bottom: 35,
+
+
+    bottom: 100,
 
     width: "100%",
 
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
+
+    paddingBottom:
+      Platform.OS === "ios"
+        ? 20
+        : 0,
   },
 
+  // Caixa do input
   inputContainer: {
 
     flexDirection: "row",
+
     alignItems: "center",
 
-    backgroundColor: "rgba(255,255,255,0.08)",
-
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.08)",
+    backgroundColor:
+      "#8f45ffaf",
 
     borderRadius: 25,
 
     paddingLeft: 20,
+
     paddingRight: 8,
+
     paddingVertical: 8,
-
-    shadowColor: "#9F5FFF",
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 20,
-
-    elevation: 10,
   },
 
+  // Campo de texto
   input: {
+
     flex: 1,
 
-    color: "#FFFFFF",
+    color: "#ffffff",
 
     fontSize: 16,
   },
 
+  // Botão enviar
   sendButton: {
 
     width: 48,
+
     height: 48,
 
     borderRadius: 50,
 
-    backgroundColor: "#9A4DFF",
+    backgroundColor: "#ffffff",
 
     justifyContent: "center",
+
     alignItems: "center",
   },
 
+  // Texto do botão
   sendText: {
-    color: "#FFFFFF",
+
+    color: "#000000",
+
     fontSize: 22,
+
     marginLeft: 2,
   },
 
