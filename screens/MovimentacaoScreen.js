@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import Footer from "../components/Footer";
+
 
 import LoadingScreen from "./LoadingScreen";
 
@@ -208,7 +210,7 @@ export default function HomeScreen() {
         </Text>
 
       </TouchableOpacity>
-
+      <Footer />
     </View>
 
   );

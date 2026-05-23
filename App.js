@@ -19,10 +19,10 @@ export default function App() {
 
     <NavigationContainer>
 
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="HomeInicial">
 
         <Stack.Screen
-          name="Home"
+          name="HomeInicial"
           component={HomeScreen}
         />
 
@@ -52,12 +52,12 @@ export default function App() {
         />
 
         <Stack.Screen
-          name="Pro"
+          name="Premium"
           component={ProScreen}
         />
 
         <Stack.Screen
-          name="Movimentação"
+          name="Home"
           component={MovimentacaoScreen}
         />
 
