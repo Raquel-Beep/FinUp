@@ -7,6 +7,8 @@ import {
   StatusBar,
   ImageBackground,
 } from "react-native";
+import Footer from "../components/Footer";
+
 
 import LoadingScreen from "./LoadingScreen";
 
@@ -109,7 +111,7 @@ export default function ProScreen() {
         </View>
 
       </View>
-
+      <Footer />
     </View>
 
   );

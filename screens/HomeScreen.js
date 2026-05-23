@@ -1,5 +1,7 @@
 import React from "react";
 import { View, Text, Button, StyleSheet, ScrollView } from "react-native";
+import Footer from "../components/Footer";
+
 
 export default function HomeScreen({ navigation }) {
 
@@ -44,7 +46,7 @@ export default function HomeScreen({ navigation }) {
         title="Movimentação"
         onPress={() => navigation.navigate("Movimentação")}
       />
-      
+      <Footer />
     </ScrollView>
   );
 }

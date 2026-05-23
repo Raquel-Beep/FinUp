@@ -8,6 +8,8 @@ import {
   ImageBackground,
   ScrollView,
 } from "react-native";
+import Footer from "../components/Footer";
+
 
 import LoadingScreen from "./LoadingScreen";
 
@@ -138,6 +140,7 @@ export default function InvestimentoScreen() {
       <TouchableOpacity style={styles.floatingButton}>
         <Text style={styles.floatingButtonText}>+</Text>
       </TouchableOpacity>
+      <Footer />
     </View>
   );
 }

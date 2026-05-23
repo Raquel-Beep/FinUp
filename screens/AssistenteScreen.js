@@ -15,6 +15,8 @@ import {
   ActivityIndicator, // Loading animado
 } from "react-native";
 
+import Footer from "../components/Footer";
+
 // Importa o componente de vídeo do Expo
 import { Video } from "expo-av";
 
@@ -380,7 +382,7 @@ export default function LunaScreen() {
         </View>
 
       </View>
-
+      <Footer />
     </KeyboardAvoidingView>
 
   );
