@@ -10,6 +10,9 @@ import DespesasScreen from "./screens/DespesasScreen";
 import InvestimentosScreen from "./screens/InvestimentosScreen";
 import ProScreen from "./screens/ProScreen";
 import MovimentacaoScreen from "./screens/MovimentacaoScreen";
+import AdminScreen from "./screens/AdminScreen";
+import AdicionarDespesaScreen from "./screens/AdicionarDespesaScreen";
+import AdicionarInvestimentoScreen from "./screens/AdicionarInvestimentoScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +63,23 @@ export default function App() {
           name="Home"
           component={MovimentacaoScreen}
         />
+
+        <Stack.Screen
+          name="Admin"
+          component={AdminScreen}
+        />
+
+        <Stack.Screen
+          name="AdicionarDespesa"
+          component={AdicionarDespesaScreen}
+          options={{ headerShown: false }}
+       />
+
+        <Stack.Screen
+          name="AdicionarInvestimento"
+          component={AdicionarInvestimentoScreen}
+          options={{ headerShown: false }}
+      />
 
       </Stack.Navigator>
 

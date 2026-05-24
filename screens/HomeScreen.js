@@ -1,7 +1,12 @@
 import React from "react";
-import { View, Text, Button, StyleSheet, ScrollView } from "react-native";
-import Footer from "../components/Footer";
+import {
+  Text,
+  Button,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 
+import Footer from "../components/Footer";
 
 export default function HomeScreen({ navigation }) {
 
@@ -33,20 +38,37 @@ export default function HomeScreen({ navigation }) {
       />
 
       <Button
+        title="Adicionar Despesa"
+        onPress={() => navigation.navigate("AdicionarDespesa")}
+      />
+
+      <Button
         title="Investimentos"
         onPress={() => navigation.navigate("Investimentos")}
       />
 
       <Button
-        title="Pro"
-        onPress={() => navigation.navigate("Pro")}
+        title="Adicionar Investimento"
+        onPress={() => navigation.navigate("AdicionarInvestimento")}
+      />
+
+      <Button
+        title="Premium"
+        onPress={() => navigation.navigate("Premium")}
       />
 
       <Button
         title="Movimentação"
-        onPress={() => navigation.navigate("Movimentação")}
+        onPress={() => navigation.navigate("Movimentacao")}
       />
+
+      <Button
+        title="Painel Admin"
+        onPress={() => navigation.navigate("Admin")}
+      />
+
       <Footer />
+
     </ScrollView>
   );
 }
