@@ -7,12 +7,10 @@ import {
   StatusBar,
   ImageBackground,
 } from "react-native";
-import Footer from "../components/Footer";
-
 
 import LoadingScreen from "./LoadingScreen";
 
-export default function ProScreen() {
+export default function ProScreen({ navigation }) {
 
   const [loading, setLoading] = useState(true);
 
@@ -27,6 +25,11 @@ export default function ProScreen() {
   if (loading) {
     return <LoadingScreen />;
   }
+
+  const handleAtivarPro = () => {
+    // Navegar para a tela de benefícios do premium
+    navigation.navigate("PremiumBenefits");
+  };
 
   return (
 
@@ -55,7 +58,10 @@ export default function ProScreen() {
             sem precisar cadastrar manualmente.
           </Text>
 
-          <TouchableOpacity style={styles.proButton}>
+          <TouchableOpacity 
+            style={styles.proButton}
+            onPress={handleAtivarPro}
+          >
             <Text style={styles.proButtonText}>
               Ativar PRO agora
             </Text>
@@ -111,7 +117,7 @@ export default function ProScreen() {
         </View>
 
       </View>
-      <Footer />
+
     </View>
 
   );

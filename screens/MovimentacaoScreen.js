@@ -9,17 +9,18 @@ import {
   ScrollView,
 } from "react-native";
 
-import Footer from "../components/Footer";
 import LoadingScreen from "./LoadingScreen";
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen() {
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+
     setTimeout(() => {
       setLoading(false);
     }, 1000);
+
   }, []);
 
   if (loading) {
@@ -27,6 +28,7 @@ export default function HomeScreen({ navigation }) {
   }
 
   return (
+
     <View style={styles.container}>
 
       <StatusBar
@@ -148,7 +150,9 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.chartContainer}>
 
           <View style={styles.chart}>
+
             <View style={styles.chartCenter} />
+
           </View>
 
           {/* LEGENDA */}
@@ -156,12 +160,9 @@ export default function HomeScreen({ navigation }) {
 
             <View style={styles.legendItem}>
 
-              <View
-                style={[
-                  styles.legendColor,
-                  { backgroundColor: "#16A085" }
-                ]}
-              />
+              <View style={[styles.legendColor, {
+                backgroundColor: "#16A085",
+              }]} />
 
               <Text style={styles.legendText}>
                 Receitas
@@ -171,12 +172,9 @@ export default function HomeScreen({ navigation }) {
 
             <View style={styles.legendItem}>
 
-              <View
-                style={[
-                  styles.legendColor,
-                  { backgroundColor: "#FF00B8" }
-                ]}
-              />
+              <View style={[styles.legendColor, {
+                backgroundColor: "#FF00B8",
+              }]} />
 
               <Text style={styles.legendText}>
                 Despesas
@@ -186,12 +184,9 @@ export default function HomeScreen({ navigation }) {
 
             <View style={styles.legendItem}>
 
-              <View
-                style={[
-                  styles.legendColor,
-                  { backgroundColor: "#7A00FF" }
-                ]}
-              />
+              <View style={[styles.legendColor, {
+                backgroundColor: "#7A00FF",
+              }]} />
 
               <Text style={styles.legendText}>
                 Saldo
@@ -205,16 +200,6 @@ export default function HomeScreen({ navigation }) {
 
       </ScrollView>
 
-      {/* BOTÃO ADMIN */}
-      <TouchableOpacity
-        style={styles.adminButton}
-        
-      >
-        <Text style={styles.adminButtonText}>
-          Painel Admin
-        </Text>
-      </TouchableOpacity>
-
       {/* BOTÃO FLUTUANTE */}
       <TouchableOpacity style={styles.floatingButton}>
 
@@ -224,9 +209,8 @@ export default function HomeScreen({ navigation }) {
 
       </TouchableOpacity>
 
-      <Footer />
-
     </View>
+
   );
 }
 
@@ -318,6 +302,7 @@ const styles = StyleSheet.create({
   cardsContainer: {
     marginTop: -50,
     paddingHorizontal: 20,
+
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
@@ -423,31 +408,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#4B2B75",
     fontWeight: "600",
-  },
-
-  adminButton: {
-    backgroundColor: "#A93EFF",
-    marginHorizontal: 20,
-    marginBottom: 15,
-    padding: 18,
-    borderRadius: 20,
-    alignItems: "center",
-
-    shadowColor: "#6F00FF",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 10,
-
-    elevation: 8,
-  },
-
-  adminButtonText: {
-    color: "#FFFFFF",
-    fontSize: 20,
-    fontWeight: "bold",
   },
 
   floatingButton: {

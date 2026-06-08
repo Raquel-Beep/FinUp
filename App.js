@@ -9,10 +9,9 @@ import AssistenteScreen from "./screens/AssistenteScreen";
 import DespesasScreen from "./screens/DespesasScreen";
 import InvestimentosScreen from "./screens/InvestimentosScreen";
 import ProScreen from "./screens/ProScreen";
+import PremiumBenefitsScreen from "./screens/PremiumBenefitsScreen";
+import CardRegistrationScreen from "./screens/CardRegistrationScreen";
 import MovimentacaoScreen from "./screens/MovimentacaoScreen";
-import AdminScreen from "./screens/AdminScreen";
-import AdicionarDespesaScreen from "./screens/AdicionarDespesaScreen";
-import AdicionarInvestimentoScreen from "./screens/AdicionarInvestimentoScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,10 +21,10 @@ export default function App() {
 
     <NavigationContainer>
 
-      <Stack.Navigator initialRouteName="HomeInicial">
+      <Stack.Navigator initialRouteName="Home">
 
         <Stack.Screen
-          name="HomeInicial"
+          name="Home"
           component={HomeScreen}
         />
 
@@ -55,31 +54,26 @@ export default function App() {
         />
 
         <Stack.Screen
-          name="Premium"
+          name="Pro"
           component={ProScreen}
         />
 
         <Stack.Screen
-          name="Home"
+          name="PremiumBenefits"
+          component={PremiumBenefitsScreen}
+          options={{ title: "PREMIUM" }}
+        />
+
+        <Stack.Screen
+          name="CardRegistration"
+          component={CardRegistrationScreen}
+          options={{ title: "Registrar Cartão" }}
+        />
+
+        <Stack.Screen
+          name="Movimentação"
           component={MovimentacaoScreen}
         />
-
-        <Stack.Screen
-          name="Admin"
-          component={AdminScreen}
-        />
-
-        <Stack.Screen
-          name="AdicionarDespesa"
-          component={AdicionarDespesaScreen}
-          options={{ headerShown: false }}
-       />
-
-        <Stack.Screen
-          name="AdicionarInvestimento"
-          component={AdicionarInvestimentoScreen}
-          options={{ headerShown: false }}
-      />
 
       </Stack.Navigator>
 
