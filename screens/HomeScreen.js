@@ -59,7 +59,7 @@ export default function HomeScreen({ navigation }) {
 
       <Button
         title="Movimentação"
-        onPress={() => navigation.navigate("Movimentacao")}
+        onPress={() => navigation.navigate("Home")}
       />
 
       <Button

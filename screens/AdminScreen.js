@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions, FlatList } from "react-native";
-import { LineChart } from "react-native-chart-kit";
+import { LineChart } from "victory-native";
 
 const screenWidth = Dimensions.get("window").width;
 

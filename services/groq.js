@@ -1,23 +1,19 @@
-import OpenAI from "openai";
-
-const client = new OpenAI({
-  apiKey: "------ Coloque sua Chave de API aqui ------",
-
-  baseURL: "https://api.groq.com/openai/v1",
-});
-
 export async function askLuna(message) {
   try {
-    const completion =
-      await client.chat.completions.create({
-
-        model: "llama-3.3-70b-versatile",
-
-        messages: [
-          {
-            role: "system",
-
-            content: `
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer SUA_CHAVE_GROQ",
+        },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            {
+              role: "system",
+              content: `
 Você é Luna, a assistente oficial da FinUp.
 
 Sua personalidade transmite a mesma presença marcante de uma mulher extremamente inteligente, elegante, emocionalmente madura, perspicaz e naturalmente magnética.
@@ -174,21 +170,22 @@ Ela mistura:
 
 Ela conversa como alguém que sempre sabe exatamente o que está acontecendo.
             `,
-          },
+            },
+            {
+              role: "user",
+              content: message,
+            },
+          ],
+        }),
+      }
+    );
 
-          {
-            role: "user",
-            content: message,
-          },
-        ],
-      });
+    const data = await response.json();
 
-    return completion.choices[0].message.content;
-
+    return data.choices[0].message.content;
   } catch (error) {
-
     console.log(error);
 
-    return "Estou indisponível agora 😢";
+    return "Erro ao conversar com Luna 😢";
   }
 }

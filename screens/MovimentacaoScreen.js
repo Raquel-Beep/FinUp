@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import {
   View,
   Text,
@@ -9,17 +10,21 @@ import {
   ScrollView,
 } from "react-native";
 
+import FloatingButton from "../components/FloatingButton";
 import Footer from "../components/Footer";
 import LoadingScreen from "./LoadingScreen";
+import { VictoryPie } from "victory-native";
 
 export default function HomeScreen({ navigation }) {
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+
     setTimeout(() => {
       setLoading(false);
     }, 1000);
+
   }, []);
 
   if (loading) {
@@ -27,13 +32,15 @@ export default function HomeScreen({ navigation }) {
   }
 
   return (
+
     <View style={styles.container}>
 
       <StatusBar
         barStyle="light-content"
-        backgroundColor="#B14DFF"
+        backgroundColor="#7B2DFF"
       />
 
+      {/* HEADER */}
       <ImageBackground
         source={require("../assets/fundo.png")}
         style={styles.header}
@@ -42,32 +49,57 @@ export default function HomeScreen({ navigation }) {
 
         <View style={styles.overlay}>
 
+          {/* TOPO */}
           <View style={styles.topBar}>
 
-            <Text style={styles.welcome}>
-              Olá, bem-vindo!
-            </Text>
+            <View>
 
-            <View style={styles.aiButton}>
-              <Text style={styles.aiIcon}>✨</Text>
+              <Text style={styles.welcomeSmall}>
+                FinUp
+              </Text>
+
+              <Text style={styles.welcome}>
+                Bem-vindo de volta ✨
+              </Text>
+
             </View>
+
+            {/* PERFIL */}
+            <TouchableOpacity
+              style={styles.profileButton}
+              onPress={() => navigation.navigate("Perfil")}
+            >
+
+              <Text style={styles.profileIcon}>
+                👤
+              </Text>
+
+            </TouchableOpacity>
 
           </View>
 
-          {/* CARD SALDO */}
+          {/* CARD PRINCIPAL */}
           <View style={styles.balanceCard}>
 
             <Text style={styles.balanceTitle}>
-              Saldo atual
+              Saldo Atual
             </Text>
 
             <Text style={styles.balanceValue}>
               R$ 3.500,00
             </Text>
 
-            <Text style={styles.balanceInfo}>
-              📈 +12% Em relação ao mês passado
-            </Text>
+            <View style={styles.balanceInfoContainer}>
+
+              <Text style={styles.balanceGrowth}>
+                📈 +12% este mês
+              </Text>
+
+              <Text style={styles.balanceDescription}>
+                comparado ao mês passado
+              </Text>
+
+            </View>
 
           </View>
 
@@ -79,17 +111,20 @@ export default function HomeScreen({ navigation }) {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingBottom: 140,
+          paddingBottom: 160,
         }}
       >
 
         {/* CARDS */}
         <View style={styles.cardsContainer}>
 
+          {/* RECEITAS */}
           <View style={[styles.smallCard, styles.greenCard]}>
 
-            <View style={styles.cardIconBox}>
-              <Text style={styles.cardIcon}>💳</Text>
+            <View style={styles.iconBox}>
+              <Text style={styles.icon}>
+                💸
+              </Text>
             </View>
 
             <Text style={styles.cardTitle}>
@@ -102,10 +137,13 @@ export default function HomeScreen({ navigation }) {
 
           </View>
 
+          {/* DESPESAS */}
           <View style={[styles.smallCard, styles.pinkCard]}>
 
-            <View style={styles.cardIconBox}>
-              <Text style={styles.cardIcon}>💳</Text>
+            <View style={styles.iconBox}>
+              <Text style={styles.icon}>
+                💳
+              </Text>
             </View>
 
             <Text style={styles.cardTitle}>
@@ -118,10 +156,17 @@ export default function HomeScreen({ navigation }) {
 
           </View>
 
+          {/* SALDO */}
           <View style={[styles.smallCard, styles.purpleCard]}>
 
+            <View style={styles.iconBox}>
+              <Text style={styles.icon}>
+                💰
+              </Text>
+            </View>
+
             <Text style={styles.cardTitle}>
-              Saldo atual
+              Saldo
             </Text>
 
             <Text style={styles.cardValue}>
@@ -130,10 +175,17 @@ export default function HomeScreen({ navigation }) {
 
           </View>
 
+          {/* INVESTIMENTOS */}
           <View style={[styles.smallCard, styles.blueCard]}>
 
+            <View style={styles.iconBox}>
+              <Text style={styles.icon}>
+                📈
+              </Text>
+            </View>
+
             <Text style={styles.cardTitle}>
-              Investido
+              Investimentos
             </Text>
 
             <Text style={styles.cardValue}>
@@ -143,12 +195,64 @@ export default function HomeScreen({ navigation }) {
           </View>
 
         </View>
-
-        {/* GRÁFICO */}
+        
+        {/* GRÁFICO DONUT PREMIUM */}
         <View style={styles.chartContainer}>
 
-          <View style={styles.chart}>
-            <View style={styles.chartCenter} />
+          <Text style={styles.chartTitle}>
+            Resumo Financeiro
+          </Text>
+
+          <View style={styles.donutWrapper}>
+
+            <VictoryPie
+
+              data={[
+                { x: "Receitas", y: 8500 },
+                { x: "Despesas", y: 5000 },
+                { x: "Investimentos", y: 15200 },
+              ]}
+
+              width={320}
+              height={320}
+
+              innerRadius={85}
+
+              padAngle={3}
+
+              colorScale={[
+                "#19C37D",
+                "#FF00B8",
+                "#7B2DFF",
+              ]}
+
+              labels={() => null}
+
+              animate={{
+                duration: 1000,
+              }}
+
+              style={{
+                data: {
+                  stroke: "#F7F3FF",
+                  strokeWidth: 5,
+                },
+              }}
+            />
+
+            {/* TEXTO CENTRAL */}
+            <View style={styles.chartCenterOverlay}>
+
+              <Text style={styles.chartBalance}>
+                R$ 3.500
+              </Text>
+
+              <Text style={styles.chartSubtitle}>
+                saldo atual
+              </Text>
+
+            </View>
+
           </View>
 
           {/* LEGENDA */}
@@ -159,7 +263,7 @@ export default function HomeScreen({ navigation }) {
               <View
                 style={[
                   styles.legendColor,
-                  { backgroundColor: "#16A085" }
+                  { backgroundColor: "#19C37D" }
                 ]}
               />
 
@@ -189,12 +293,12 @@ export default function HomeScreen({ navigation }) {
               <View
                 style={[
                   styles.legendColor,
-                  { backgroundColor: "#7A00FF" }
+                  { backgroundColor: "#7B2DFF" }
                 ]}
               />
 
               <Text style={styles.legendText}>
-                Saldo
+                Investimentos
               </Text>
 
             </View>
@@ -202,28 +306,11 @@ export default function HomeScreen({ navigation }) {
           </View>
 
         </View>
-
       </ScrollView>
-
-      {/* BOTÃO ADMIN */}
-      <TouchableOpacity
-        style={styles.adminButton}
-        
-      >
-        <Text style={styles.adminButtonText}>
-          Painel Admin
-        </Text>
-      </TouchableOpacity>
-
       {/* BOTÃO FLUTUANTE */}
-      <TouchableOpacity style={styles.floatingButton}>
+      <FloatingButton />
 
-        <Text style={styles.floatingButtonText}>
-          +
-        </Text>
-
-      </TouchableOpacity>
-
+      {/* FOOTER */}
       <Footer />
 
     </View>
@@ -234,12 +321,11 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: "#F8F2FC",
+    backgroundColor: "#F7F3FF",
   },
 
   header: {
-    height: 320,
-    overflow: "hidden",
+    height: 340,
   },
 
   headerImage: {
@@ -248,9 +334,9 @@ const styles = StyleSheet.create({
 
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(120, 0, 255, 0.15)",
-    paddingHorizontal: 22,
+    backgroundColor: "rgba(120,0,255,0.12)",
     paddingTop: 70,
+    paddingHorizontal: 22,
   },
 
   topBar: {
@@ -259,65 +345,95 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  welcomeSmall: {
+    color: "#E5D9FF",
+    fontSize: 18,
+    marginBottom: 4,
+  },
+
   welcome: {
     color: "#FFFFFF",
     fontSize: 30,
     fontWeight: "bold",
   },
 
-  aiButton: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
+  profileButton: {
+    width: 68,
+    height: 68,
+    borderRadius: 34,
+
     backgroundColor: "rgba(255,255,255,0.15)",
+
     justifyContent: "center",
     alignItems: "center",
 
-    shadowColor: "#FF00E5",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.2)",
+
+    shadowColor: "#C56BFF",
     shadowOffset: {
       width: 0,
-      height: 6,
+      height: 5,
     },
-    shadowOpacity: 0.4,
+
+    shadowOpacity: 0.5,
     shadowRadius: 10,
 
-    elevation: 8,
+    elevation: 10,
   },
 
-  aiIcon: {
-    fontSize: 35,
-    color: "#FFF",
+  profileIcon: {
+    fontSize: 32,
+    color: "#FFFFFF",
   },
 
   balanceCard: {
-    marginTop: 25,
+    marginTop: 28,
+
     backgroundColor: "rgba(255,255,255,0.15)",
-    borderRadius: 30,
-    padding: 25,
+
+    borderRadius: 35,
+
+    padding: 28,
+
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.15)",
   },
 
   balanceTitle: {
-    color: "#FFF",
+    color: "#FFFFFF",
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: "600",
   },
 
   balanceValue: {
-    color: "#FFF",
+    color: "#FFFFFF",
     fontSize: 52,
     fontWeight: "bold",
-    marginTop: 10,
+    marginTop: 12,
   },
 
-  balanceInfo: {
-    color: "#FFF",
+  balanceInfoContainer: {
+    marginTop: 12,
+  },
+
+  balanceGrowth: {
+    color: "#9CFFCB",
     fontSize: 20,
-    marginTop: 10,
+    fontWeight: "bold",
+  },
+
+  balanceDescription: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    marginTop: 4,
+    opacity: 0.8,
   },
 
   cardsContainer: {
-    marginTop: -50,
+    marginTop: -45,
     paddingHorizontal: 20,
+
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
@@ -325,13 +441,13 @@ const styles = StyleSheet.create({
 
   smallCard: {
     width: "48%",
-    borderRadius: 28,
-    padding: 20,
-    marginBottom: 15,
+    borderRadius: 30,
+    padding: 22,
+    marginBottom: 16,
   },
 
   greenCard: {
-    backgroundColor: "#16A085",
+    backgroundColor: "#19C37D",
   },
 
   pinkCard: {
@@ -343,146 +459,95 @@ const styles = StyleSheet.create({
   },
 
   blueCard: {
-    backgroundColor: "#3D5AFE",
+    backgroundColor: "#4A6CFF",
   },
 
-  cardIconBox: {
-    width: 60,
-    height: 60,
-    borderRadius: 20,
-    backgroundColor: "rgba(255,255,255,0.15)",
+  iconBox: {
+    width: 62,
+    height: 62,
+    borderRadius: 22,
+
+    backgroundColor: "rgba(255,255,255,0.18)",
+
     justifyContent: "center",
     alignItems: "center",
+
     marginBottom: 18,
   },
 
-  cardIcon: {
-    fontSize: 28,
-    color: "#FFF",
+  icon: {
+    fontSize: 30,
   },
 
   cardTitle: {
-    color: "#FFF",
-    fontSize: 22,
+    color: "#FFFFFF",
+    fontSize: 20,
     fontWeight: "600",
-    marginBottom: 8,
   },
 
   cardValue: {
-    color: "#FFF",
-    fontSize: 26,
-    fontWeight: "bold",
-  },
-
-  chartContainer: {
-    alignItems: "center",
-    marginTop: 25,
-  },
-
-  chart: {
-    width: 280,
-    height: 280,
-    borderRadius: 140,
-    backgroundColor: "#16A085",
-    justifyContent: "center",
-    alignItems: "center",
-
-    borderTopColor: "#FF00B8",
-    borderTopWidth: 70,
-
-    borderRightColor: "#7A00FF",
-    borderRightWidth: 70,
-  },
-
-  chartCenter: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: "#F8F2FC",
-  },
-
-  legendContainer: {
-    flexDirection: "row",
-    marginTop: 30,
-  },
-
-  legendItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginHorizontal: 10,
-  },
-
-  legendColor: {
-    width: 18,
-    height: 18,
-    borderRadius: 6,
-    marginRight: 8,
-  },
-
-  legendText: {
-    fontSize: 18,
-    color: "#4B2B75",
-    fontWeight: "600",
-  },
-
-  adminButton: {
-    backgroundColor: "#A93EFF",
-    marginHorizontal: 20,
-    marginBottom: 15,
-    padding: 18,
-    borderRadius: 20,
-    alignItems: "center",
-
-    shadowColor: "#6F00FF",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 10,
-
-    elevation: 8,
-  },
-
-  adminButtonText: {
     color: "#FFFFFF",
-    fontSize: 20,
+    fontSize: 28,
     fontWeight: "bold",
+    marginTop: 8,
   },
 
-  floatingButton: {
-    position: "absolute",
-    right: 25,
-    bottom: 40,
+chartContainer: {
+  marginTop: 25,
+  alignItems: "center",
+},
 
-    width: 90,
-    height: 90,
-    borderRadius: 45,
+chartTitle: {
+  fontSize: 26,
+  color: "#4B2B75",
+  fontWeight: "bold",
+  marginBottom: 20,
+},
 
-    backgroundColor: "#A93EFF",
+donutWrapper: {
+  justifyContent: "center",
+  alignItems: "center",
+},
 
-    justifyContent: "center",
-    alignItems: "center",
+chartCenterOverlay: {
+  position: "absolute",
+  justifyContent: "center",
+  alignItems: "center",
+},
 
-    borderWidth: 4,
-    borderColor: "#E7C7FF",
+chartBalance: {
+  fontSize: 30,
+  fontWeight: "bold",
+  color: "#4B2B75",
+},
 
-    shadowColor: "#6F00FF",
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
+chartSubtitle: {
+  marginTop: 4,
+  fontSize: 16,
+  color: "#7E6B97",
+},
 
-    elevation: 12,
-  },
+legendContainer: {
+  flexDirection: "row",
+  marginTop: 15,
+},
 
-  floatingButtonText: {
-    color: "#FFFFFF",
-    fontSize: 50,
-    fontWeight: "300",
-    marginTop: -4,
-  },
+legendItem: {
+  flexDirection: "row",
+  alignItems: "center",
+  marginHorizontal: 10,
+},
 
+legendColor: {
+  width: 18,
+  height: 18,
+  borderRadius: 6,
+  marginRight: 8,
+},
+
+legendText: {
+  fontSize: 16,
+  color: "#4B2B75",
+  fontWeight: "600",
+},
 });
