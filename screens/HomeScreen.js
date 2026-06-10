@@ -67,6 +67,16 @@ export default function HomeScreen({ navigation }) {
         onPress={() => navigation.navigate("Admin")}
       />
 
+      <Button
+        title="Perfil"
+        onPress={() => navigation.navigate("Perfil")}
+      />
+
+      <Button
+        title="Premium Benefits"
+        onPress={() => navigation.navigate("PremiumBenefits")}
+      />
+
       <Footer />
 
     </ScrollView>

@@ -14,6 +14,9 @@ import MovimentacaoScreen from "./screens/MovimentacaoScreen";
 import AdminScreen from "./screens/AdminScreen";
 import AdicionarDespesaScreen from "./screens/AdicionarDespesaScreen";
 import AdicionarInvestimentoScreen from "./screens/AdicionarInvestimentoScreen";
+import PerfilScreen from "./screens/PerfilScreen";
+import PremiumBenefitsScreen from "./screens/PremiumBenefitsScreen";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +64,11 @@ export default function App() {
         />
 
         <Stack.Screen
+          name="PremiumBenefits"
+          component={PremiumBenefitsScreen}
+        />
+
+        <Stack.Screen
           name="Home"
           component={MovimentacaoScreen}
         />
@@ -68,6 +76,11 @@ export default function App() {
         <Stack.Screen
           name="Admin"
           component={AdminScreen}
+        />
+
+        <Stack.Screen
+          name="Perfil"
+          component={PerfilScreen}
         />
 
         <Stack.Screen

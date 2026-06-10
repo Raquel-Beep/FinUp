@@ -12,7 +12,7 @@ import Footer from "../components/Footer";
 
 import LoadingScreen from "./LoadingScreen";
 
-export default function ProScreen() {
+export default function ProScreen({ navigation }) {
 
   const [loading, setLoading] = useState(true);
 
@@ -55,7 +55,10 @@ export default function ProScreen() {
             sem precisar cadastrar manualmente.
           </Text>
 
-          <TouchableOpacity style={styles.proButton}>
+          <TouchableOpacity
+            style={styles.proButton}
+            onPress={() => navigation.navigate("PremiumBenefits")}
+          >
             <Text style={styles.proButtonText}>
               Ativar PRO agora
             </Text>
