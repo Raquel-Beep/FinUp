@@ -10,10 +10,9 @@ import AssistenteScreen from "./screens/AssistenteScreen";
 import DespesasScreen from "./screens/DespesasScreen";
 import InvestimentosScreen from "./screens/InvestimentosScreen";
 import ProScreen from "./screens/ProScreen";
+import PremiumBenefitsScreen from "./screens/PremiumBenefitsScreen";
+import CardRegistrationScreen from "./screens/CardRegistrationScreen";
 import MovimentacaoScreen from "./screens/MovimentacaoScreen";
-import AdminScreen from "./screens/AdminScreen";
-import AdicionarDespesaScreen from "./screens/AdicionarDespesaScreen";
-import AdicionarInvestimentoScreen from "./screens/AdicionarInvestimentoScreen";
 import PerfilScreen from "./screens/PerfilScreen";
 import PremiumBenefitsScreen from "./screens/PremiumBenefitsScreen";
 
@@ -26,10 +25,10 @@ export default function App() {
 
     <NavigationContainer>
 
-      <Stack.Navigator initialRouteName="HomeInicial">
+      <Stack.Navigator initialRouteName="Home">
 
         <Stack.Screen
-          name="HomeInicial"
+          name="Home"
           component={HomeScreen}
         />
 
@@ -59,7 +58,7 @@ export default function App() {
         />
 
         <Stack.Screen
-          name="Premium"
+          name="Pro"
           component={ProScreen}
         />
 
@@ -74,8 +73,9 @@ export default function App() {
         />
 
         <Stack.Screen
-          name="Admin"
-          component={AdminScreen}
+          name="CardRegistration"
+          component={CardRegistrationScreen}
+          options={{ title: "Registrar Cartão" }}
         />
 
         <Stack.Screen

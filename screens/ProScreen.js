@@ -7,8 +7,6 @@ import {
   StatusBar,
   ImageBackground,
 } from "react-native";
-import Footer from "../components/Footer";
-
 
 import LoadingScreen from "./LoadingScreen";
 
@@ -27,6 +25,11 @@ export default function ProScreen({ navigation }) {
   if (loading) {
     return <LoadingScreen />;
   }
+
+  const handleAtivarPro = () => {
+    // Navegar para a tela de benefícios do premium
+    navigation.navigate("PremiumBenefits");
+  };
 
   return (
 
@@ -114,7 +117,7 @@ export default function ProScreen({ navigation }) {
         </View>
 
       </View>
-      <Footer />
+
     </View>
 
   );
