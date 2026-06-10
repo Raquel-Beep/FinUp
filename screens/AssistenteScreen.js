@@ -13,9 +13,8 @@ import {
   KeyboardAvoidingView, // Faz a tela subir quando o teclado abre
   Platform, // Detecta Android/iOS
   ActivityIndicator, // Loading animado
+  Alert, // Alerta de confirmação
 } from "react-native";
-
-import Footer from "../components/Footer";
 
 // Importa o componente de vídeo do Expo
 import { Video } from "expo-av";
@@ -25,6 +24,14 @@ import LoadingScreen from "./LoadingScreen";
 
 // Função da IA Luna
 import { askLuna } from "../services/groq";
+
+// Serviço de gerenciamento de premium
+import {
+  podeUsarLuna,
+  registrarUsoDaLuna,
+  obterInfoLunaLimite,
+  ehPremium,
+} from "../services/premiumService";
 
 // Componente principal da tela
 export default function LunaScreen() {
@@ -128,6 +135,29 @@ export default function LunaScreen() {
       return;
     }
 
+    // Verifica se o usuário pode usar Luna
+    if (!podeUsarLuna()) {
+      // Mostrar alerta informando limite atingido
+      Alert.alert(
+        "Limite de Sugestões Atingido",
+        "Você atingiu o limite diário de sugestões. Atualize para PREMIUM para sugestões ilimitadas! 💜",
+        [
+          {
+            text: "Atualizar PREMIUM",
+            onPress: () => {
+              // Navegar para tela de Premium
+              // navigation.navigate("PremiumBenefits");
+            },
+          },
+          {
+            text: "Fechar",
+            style: "cancel",
+          },
+        ]
+      );
+      return;
+    }
+
     // Cria objeto da mensagem do usuário
     const userMessage = {
 
@@ -151,6 +181,9 @@ export default function LunaScreen() {
     setIsTyping(true);
 
     try {
+
+      // Registra o uso da Luna
+      registrarUsoDaLuna();
 
       // Envia mensagem para IA
       const response =
@@ -348,6 +381,14 @@ export default function LunaScreen() {
 
       {/* INPUT */}
       <View style={styles.inputArea}>
+        {/* INFORMAÇÃO DE LIMITE */}
+        {!ehPremium() && (
+          <View style={styles.limitInfoContainer}>
+            <Text style={styles.limitInfoText}>
+              💜 {obterInfoLunaLimite().mensagem}
+            </Text>
+          </View>
+        )}
 
         <View style={styles.inputContainer}>
 
@@ -382,7 +423,7 @@ export default function LunaScreen() {
         </View>
 
       </View>
-      <Footer />
+
     </KeyboardAvoidingView>
 
   );
@@ -602,6 +643,25 @@ const styles = StyleSheet.create({
     fontSize: 22,
 
     marginLeft: 2,
+  },
+
+  /* LIMITE INFORMAÇÃO */
+
+  // Informação de limite
+  limitInfoContainer: {
+    backgroundColor: "rgba(200, 155, 255, 0.2)",
+    borderLeftWidth: 4,
+    borderLeftColor: "#C89BFF",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginBottom: 10,
+    borderRadius: 6,
+  },
+
+  limitInfoText: {
+    color: "#C89BFF",
+    fontSize: 12,
+    fontWeight: "600",
   },
 
 });

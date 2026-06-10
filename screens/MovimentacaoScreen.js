@@ -15,7 +15,7 @@ import Footer from "../components/Footer";
 import LoadingScreen from "./LoadingScreen";
 import { VictoryPie } from "victory-native";
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen() {
 
   const [loading, setLoading] = useState(true);
 
@@ -199,6 +199,9 @@ export default function HomeScreen({ navigation }) {
         {/* GRÁFICO DONUT PREMIUM */}
         <View style={styles.chartContainer}>
 
+          <View style={styles.chart}>
+
+            <View style={styles.chartCenter} />
           <Text style={styles.chartTitle}>
             Resumo Financeiro
           </Text>
@@ -260,6 +263,9 @@ export default function HomeScreen({ navigation }) {
 
             <View style={styles.legendItem}>
 
+              <View style={[styles.legendColor, {
+                backgroundColor: "#16A085",
+              }]} />
               <View
                 style={[
                   styles.legendColor,
@@ -275,12 +281,9 @@ export default function HomeScreen({ navigation }) {
 
             <View style={styles.legendItem}>
 
-              <View
-                style={[
-                  styles.legendColor,
-                  { backgroundColor: "#FF00B8" }
-                ]}
-              />
+              <View style={[styles.legendColor, {
+                backgroundColor: "#FF00B8",
+              }]} />
 
               <Text style={styles.legendText}>
                 Despesas
@@ -290,6 +293,9 @@ export default function HomeScreen({ navigation }) {
 
             <View style={styles.legendItem}>
 
+              <View style={[styles.legendColor, {
+                backgroundColor: "#7A00FF",
+              }]} />
               <View
                 style={[
                   styles.legendColor,
@@ -307,6 +313,7 @@ export default function HomeScreen({ navigation }) {
 
         </View>
       </ScrollView>
+
       {/* BOTÃO FLUTUANTE */}
       <FloatingButton />
 
@@ -314,6 +321,7 @@ export default function HomeScreen({ navigation }) {
       <Footer />
 
     </View>
+
   );
 }
 
@@ -475,6 +483,32 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
 
+  floatingButton: {
+    position: "absolute",
+    right: 25,
+    bottom: 40,
+
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+
+    backgroundColor: "#A93EFF",
+
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderWidth: 4,
+    borderColor: "#E7C7FF",
+
+    shadowColor: "#6F00FF",
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+
+    elevation: 12,
   icon: {
     fontSize: 30,
   },
