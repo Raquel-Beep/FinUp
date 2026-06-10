@@ -43,6 +43,12 @@ export default function HomeScreen({ navigation }) {
       <Button
         title="Movimentação"
         onPress={() => navigation.navigate("Movimentação")}
+        onPress={() => navigation.navigate("Home")}
+      />
+
+      <Button
+        title="Painel Admin"
+        onPress={() => navigation.navigate("Admin")}
       />
       
     </ScrollView>
