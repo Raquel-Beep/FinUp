@@ -8,10 +8,15 @@ import {
   ScrollView,
   TextInput,
   ImageBackground,
+  Alert,
 } from "react-native";
-
+import { LinearGradient } from "expo-linear-gradient";
 import Footer from "../components/Footer";
+import { db } from "../services/firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// Tela para de adiciona um novo investimento
 export default function AdicionarInvestimentoScreen({ navigation }) {
   const [categoriaSelecionada, setCategoriaSelecionada] = useState(null);
   const [tipoSelecionado, setTipoSelecionado] = useState("Entrada");
@@ -25,6 +30,51 @@ export default function AdicionarInvestimentoScreen({ navigation }) {
     { nome: "Criptomoedas", icon: "₿", color: "#FF5B1A" },
     { nome: "Outros", icon: "•••", color: "#8A56FF" },
   ];
+
+    export default function AdicionarInvestimentoScreen({ navigation }) {
+      const [categoriaSelecionada, setCategoriaSelecionada] = useState(null);
+      const [tipoSelecionado, setTipoSelecionado] = useState("Entrada");
+      const [valor, setValor] = useState("");
+      const [descricao, setDescricao] = useState("");
+      const [corretora, setCorretora] = useState("");
+
+      const handleSalvar = async () => {
+        if (!valor || !categoriaSelecionada) {
+          Alert.alert("Erro", "Preencha o valor e selecione uma categoria.");
+          return;
+        }
+ 
+      try {
+        const userId = await AsyncStorage.getItem("userUid");
+        const userName = await AsyncStorage.getItem("userName");
+  
+        if (!userId) {
+          Alert.alert("Erro", "Usuário não encontrado. Faça login novamente.");
+          return;
+        }
+ 
+      const docRef = await addDoc(collection(db, "investimentos"), {
+        usuarioId: userId,
+        usuarioNome: userName || "Usuário",
+        valor: parseFloat(valor.replace(",", ".")),
+        tipo: tipoSelecionado,
+        categoria: categoriaSelecionada,
+        descricao: descricao || "",
+        corretora: corretora || "",
+        dataHora: new Date().toISOString(),
+      });
+ 
+      // Atualiza o investimentoId com o ID do doc
+      console.log("Investimento salvo com ID:", docRef.id);
+ 
+      Alert.alert("Sucesso", "Investimento salvo com sucesso!", [
+        { text: "OK", onPress: () => navigation.goBack() },
+      ]);
+    } catch (error) {
+      console.error("Erro ao salvar investimento:", error);
+      Alert.alert("Erro", "Não foi possível salvar o investimento.");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -374,4 +424,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
-});
+
+}
+);
+}

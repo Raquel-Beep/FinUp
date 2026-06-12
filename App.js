@@ -14,6 +14,7 @@ import PremiumBenefitsScreen from "./screens/PremiumBenefitsScreen";
 import CardRegistrationScreen from "./screens/CardRegistrationScreen";
 import MovimentacaoScreen from "./screens/MovimentacaoScreen";
 
+// Configuração do stack navigator
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -65,6 +66,7 @@ export default function App() {
           options={{ title: "PREMIUM" }}
         />
 
+        {/* Adicionado o registro das telas que estavam causando o erro */}
         <Stack.Screen
           name="CardRegistration"
           component={CardRegistrationScreen}
