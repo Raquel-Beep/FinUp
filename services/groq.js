@@ -1,23 +1,29 @@
-import OpenAI from "openai";
-
-const client = new OpenAI({
-  apiKey: "------ Coloque sua Chave de API aqui ------",
-
-  baseURL: "https://api.groq.com/openai/v1",
-});
+// Mock simples para a assistente Luna usado no cliente (Expo Go).
+// Em produção, mova a chamada real da AI para um backend seguro.
 
 export async function askLuna(message) {
+  // Simula um pequeno delay de rede
+  await new Promise((res) => setTimeout(res, 600));
+
+  // Resposta mock — mantenha curta e consistente com a personalidade da Luna
+  return `Luna: Oi! Recebi sua mensagem: "${message}". Posso ajudar com um resumo das despesas, dicas de economia e metas. 💜`;
+}
+export async function askLuna(message) {
   try {
-    const completion =
-      await client.chat.completions.create({
-
-        model: "llama-3.3-70b-versatile",
-
-        messages: [
-          {
-            role: "system",
-
-            content: `
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer SUA_CHAVE_GROQ",
+        },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            {
+              role: "system",
+              content: `
 Você é Luna, a assistente oficial da FinUp.
 
 Sua personalidade transmite a mesma presença marcante de uma mulher extremamente inteligente, elegante, emocionalmente madura, perspicaz e naturalmente magnética.
@@ -174,21 +180,22 @@ Ela mistura:
 
 Ela conversa como alguém que sempre sabe exatamente o que está acontecendo.
             `,
-          },
+            },
+            {
+              role: "user",
+              content: message,
+            },
+          ],
+        }),
+      }
+    );
 
-          {
-            role: "user",
-            content: message,
-          },
-        ],
-      });
+    const data = await response.json();
 
-    return completion.choices[0].message.content;
-
+    return data.choices[0].message.content;
   } catch (error) {
-
     console.log(error);
 
-    return "Estou indisponível agora 😢";
+    return "Erro ao conversar com Luna 😢";
   }
 }

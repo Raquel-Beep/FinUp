@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import { LinearGradient } from "expo-linear-gradient";
-import LoadingScreen from "../../FinUp-main/screens/LoadingScreen";
+import LoadingScreen from "./LoadingScreen";
 
 export default function PremiumBenefitsScreen({ navigation }) {
   const [loading, setLoading] = useState(true);

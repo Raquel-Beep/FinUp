@@ -13,10 +13,6 @@ import ProScreen from "./screens/ProScreen";
 import PremiumBenefitsScreen from "./screens/PremiumBenefitsScreen";
 import CardRegistrationScreen from "./screens/CardRegistrationScreen";
 import MovimentacaoScreen from "./screens/MovimentacaoScreen";
-import AdminScreen from "./screens/AdminScreen"; 
-import InserirScreen from "./screens/InserirScreen"; 
-import InserirReceitaScreen from "./screens/InserirReceitaScreen";
-import AdicionarInvestimentoScreen from "./screens/AdicionarInvestimentoScreen";
 
 // Configuração do stack navigator
 const Stack = createNativeStackNavigator();
@@ -70,6 +66,7 @@ export default function App() {
           options={{ title: "PREMIUM" }}
         />
 
+        {/* Adicionado o registro das telas que estavam causando o erro */}
         <Stack.Screen
           name="CardRegistration"
           component={CardRegistrationScreen}
@@ -79,31 +76,6 @@ export default function App() {
         <Stack.Screen
           name="Movimentação"
           component={MovimentacaoScreen}
-        />
-
-        {/* Adicionado o registro das telas que estavam causando o erro */}
-        <Stack.Screen
-          name="Admin"
-          component={AdminScreen}
-        />
-
-        <Stack.Screen
-          name="inserir"
-          component={InserirScreen}
-        />
-
-        // Registro da tela de inserção de receita
-        <Stack.Screen
-          name="InserirReceita"
-          component={InserirReceitaScreen}
-          options={{ title: "Nova Receita" }}
-        />
-
-        // Registro da tela de adição de investimento
-        <Stack.Screen
-          name="AdicionarInvestimento"
-          component={AdicionarInvestimentoScreen}
-          options={{ title: "Novo Investimento" }}
         />
 
       </Stack.Navigator>

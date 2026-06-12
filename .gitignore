@@ -2,6 +2,7 @@
 
 # dependencies
 node_modules/
+GROQ_API_KEY = _NVCIEmXTUzC9v49MQyYsWGdyb3FYGNZTDB69nOsyTzaobcV8SEU
 
 # Expo
 .expo/

@@ -12,7 +12,7 @@ import {
 } from "react-native";
 
 import { LinearGradient } from "expo-linear-gradient";
-import LoadingScreen from "../../FinUp-main/screens/LoadingScreen";
+import LoadingScreen from "./LoadingScreen";
 
 // Lista de principais bancos brasileiros
 const BANCOS_DISPONIVEIS = [
